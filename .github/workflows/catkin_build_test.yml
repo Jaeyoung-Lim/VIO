@@ -27,7 +27,7 @@ jobs:
       working-directory: 
       run: |
         apt update
-        apt install -y python3-wstool
+        apt install -y python3-wstool ros-${{matrix.config.rosdistro}}-mav-msgs
         mkdir -p $HOME/catkin_ws/src;
         cd $HOME/catkin_ws
         catkin init
@@ -36,8 +36,6 @@ jobs:
         cd $HOME/catkin_ws/src
         ln -s $GITHUB_WORKSPACE
         cd $HOME/catkin_ws
-        # wstool init src src/mavros_controllers/dependencies.rosinstall
-        # wstool update -t src -j4
         rosdep update
         rosdep install --from-paths src --ignore-src -y --rosdistro ${{matrix.config.rosdistro}}
         catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release -DCATKIN_ENABLE_TESTING=False
